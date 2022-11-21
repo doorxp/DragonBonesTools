@@ -58,3 +58,7 @@ typings/
 .env
 
 .vscode
+
+#out folder, except for resources
+out
+!out/resource
