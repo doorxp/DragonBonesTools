@@ -19,12 +19,12 @@ function execute(): void {
         .version("0.1.0")
         .option("-i, --input [path]", "Input path")
         .option("-o, --output [path]", "Output path")
-        .option("-t, --type [type]", "Convert to type [binary, new, v45, player, viewer, spine]", /^(binary|new|v45|player|viewer|spine|none)$/i, "none")
+        .option("-t, --type [type]", "Convert to type [binary, new, v45, player, viewer, spine]", /^(binary|new|v45|player|viewer|spine|none)$/i, "spine")
         .option("-f, --filter [keyword]", "Filter")
         .option("-d, --delete", "Delete raw files after convert complete")
         .option("-p, --parameter [parameter]", "Parameter")
         .parse(process.argv);
-
+    
     const input = path.resolve(path.normalize(commands["input"] as string || process.cwd()));
     const output = "output" in commands ? path.resolve(path.normalize(commands["output"])) : input;
     const type = commands["type"] as string || "";
