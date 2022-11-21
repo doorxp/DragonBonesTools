@@ -20,9 +20,14 @@ export class Spine {
     readonly ik: IKConstraint[] = [];
     readonly transform: TransformConstraint[] = [];
     readonly path: PathConstraint[] = [];
-    readonly skins: Map<Map<Map<Attachment>>> = {};
+    readonly skins: Skin[] = [];
     readonly animations: Map<Animation> = {};
     readonly events: Map<Event> = {};
+}
+
+export class Skin {
+    name: string = "";
+    readonly attachments: Map<Map<Map<Attachment>>> = {};
 }
 
 export class Skeleton {
@@ -270,13 +275,13 @@ export class TranslateFrame extends TweenFrame {
 }
 
 export class RotateFrame extends TweenFrame {
-    angle: number = 0.0;
+    value: number = 0.0;
 
     constructor(isDefault: boolean = false) {
         super(isDefault);
 
         if (isDefault) {
-            this.angle = NaN; // Spine import data bug.
+            this.value = NaN; // Spine import data bug.
         }
     }
 }
@@ -359,38 +364,7 @@ export const copyConfig = [
         ik: IKConstraint,
         transform: TransformConstraint,
         path: PathConstraint,
-        skins: [[[[
-            function (attachment: any): { new(): Attachment } | null {
-                const type: AttachmentType = attachment.type || "region";
-                switch (type) {
-                    case "region":
-                        return RegionAttachment;
-
-                    case "mesh":
-                    case "skinnedmesh":
-                        return MeshAttachment;
-
-                    case "linkedmesh":
-                        return LinkedMeshAttachment;
-
-                    case "boundingbox":
-                        return BoundingBoxAttachment;
-
-                    case "path":
-                        return PathAttachment;
-
-                    case "point":
-                        return PointAttachment;
-
-                    case "clipping":
-                        return ClippingAttachment;
-
-                    default:
-                        return null;
-                }
-            },
-            Function
-        ]]]],
+        skins: Skin,
         animations: [Animation],
         events: [Event],
     },

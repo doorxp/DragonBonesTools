@@ -114,7 +114,7 @@ export default function (data: dbft.DragonBones, version: string, addTextureAtla
 
         for (const skin of armature.skin) {
             const skinName = skin.name;
-            const spSkins = {} as any;
+            const spAttachments = {} as any;
             for (const slot of skin.slot) {
                 const spSlots = {} as any;
                 for (const display of slot.display) {
@@ -219,10 +219,13 @@ export default function (data: dbft.DragonBones, version: string, addTextureAtla
                     }
                 }
 
-                spSkins[slot.name] = spSlots;
+                spAttachments[slot.name] = spSlots;
             }
-
-            spine.skins[skinName] = spSkins;
+            
+            const spSkin = {} as any;
+            spSkin.name = skinName;
+            spSkin.attachments = spAttachments;
+            spine.skins.push(spSkin);
         }
 
         for (const animation of armature.animation) {
@@ -366,7 +369,7 @@ export default function (data: dbft.DragonBones, version: string, addTextureAtla
                 for (const frame of timeline.rotateFrame) {
                     const spRotateFrame = new spft.RotateFrame();
                     spRotateFrame.time = position;
-                    spRotateFrame.angle = -frame.rotate;
+                    spRotateFrame.value = -frame.rotate;
                     setCurveFormDB(spRotateFrame, frame, iF === timeline.rotateFrame.length - 1);
                     spTimelines.rotate.push(spRotateFrame);
 

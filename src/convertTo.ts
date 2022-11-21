@@ -283,7 +283,7 @@ function execute(): void {
                 format(dragonBonesData);
 
                 const outputDirURL = dirURL.replace(input, output);
-                const result = toSpine(dragonBonesData, "3.6.0", !output);
+                const result = toSpine(dragonBonesData, "4.1.17", !output);
                 const suffix = outputDirURL === dirURL ? "_spine" : "";
                 dragonBonesData.name = fileName.replace("_ske", "");
                 console.log(dragonBonesData.name);
@@ -300,9 +300,14 @@ function execute(): void {
                     console.log(outputURL);
                 }
 
-                const outputURL = path.join(outputDirURL, dragonBonesData.name + suffix + ".atlas");
-                fs.writeFileSync(outputURL, result.textureAtlas);
-                console.log(outputURL);
+                const outputAtlasURL = path.join(outputDirURL, dragonBonesData.name + suffix + ".atlas");
+                fs.writeFileSync(outputAtlasURL, result.textureAtlas);
+                console.log(outputAtlasURL);
+                
+                const inputTexURL = path.join(outputDirURL, dragonBonesData.name + "_tex" + ".png");
+                const outputTexURL = path.join(outputDirURL, dragonBonesData.name + ".png");
+                fs.copyFileSync(inputTexURL, outputTexURL);
+                console.log(outputTexURL);
 
                 if (deleteRaw) {
                     fs.unlinkSync(file);

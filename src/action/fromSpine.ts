@@ -518,7 +518,7 @@ export default function (data: Input, forPro: boolean = false): dbft.DragonBones
             for (const spFrame of spTimeline.rotate) {
                 const frame = new dbft.BoneRotateFrame();
                 frame._position = Math.floor(spFrame.time * result.frameRate);
-                frame.rotate = -spFrame.angle;
+                frame.rotate = -spFrame.value;
                 setTweenFormSP(frame, spFrame, iF++ === spTimeline.rotate.length - 1);
                 timeline.rotateFrame.push(frame);
 
