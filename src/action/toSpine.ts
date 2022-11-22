@@ -366,10 +366,18 @@ export default function (data: dbft.DragonBones, version: string, addTextureAtla
 
                 iF = 0;
                 position = 0.0;
+                let lastFrame: spft.RotateFrame = null;
                 for (const frame of timeline.rotateFrame) {
                     const spRotateFrame = new spft.RotateFrame();
                     spRotateFrame.time = position;
                     spRotateFrame.value = -frame.rotate;
+
+                    //Calculate relative rotation position
+                    if (lastFrame != null) {
+                        let lastAngleNormalized = lastFrame.value % 360;
+                        let diff = (spRotateFrame.value - lastAngleNormalized + 540) % 360 - 180;
+                        spRotateFrame.value = lastFrame.value + diff;
+                    }
                     setCurveFormDB(spRotateFrame, frame, iF === timeline.rotateFrame.length - 1);
                     spTimelines.rotate.push(spRotateFrame);
 
@@ -383,6 +391,8 @@ export default function (data: dbft.DragonBones, version: string, addTextureAtla
                     iF++;
                     position += frame.duration / frameRate;
                     position = Number(position.toFixed(4));
+
+                    lastFrame = spRotateFrame;
                 }
 
                 iF = 0;
