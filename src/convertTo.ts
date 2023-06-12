@@ -304,7 +304,7 @@ function execute(): void {
                 fs.writeFileSync(outputAtlasURL, result.textureAtlas);
                 console.log(outputAtlasURL);
                 
-                const inputTexURL = path.join(outputDirURL, dragonBonesData.name + "_tex" + ".png");
+                const inputTexURL = path.join(input, dragonBonesData.name + "_tex" + ".png");
                 const outputTexURL = path.join(outputDirURL, dragonBonesData.name + ".png");
                 fs.copyFileSync(inputTexURL, outputTexURL);
                 console.log(outputTexURL);
