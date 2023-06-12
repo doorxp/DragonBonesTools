@@ -62,3 +62,4 @@ typings/
 #out folder, except for resources
 out
 !out/resource
+.DS_Store
